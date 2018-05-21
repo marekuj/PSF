@@ -1,423 +1,191 @@
-[gd_scene load_steps=17 format=2]
+[gd_scene load_steps=9 format=2]
 
-[ext_resource path="res://images/background.png" type="Texture" id=1]
-[ext_resource path="res://images/sun.png" type="Texture" id=2]
-[ext_resource path="res://images/cloud4.png" type="Texture" id=3]
-[ext_resource path="res://images/cloud3.png" type="Texture" id=4]
-[ext_resource path="res://images/cloud2.png" type="Texture" id=5]
-[ext_resource path="res://images/cloud1.png" type="Texture" id=6]
-[ext_resource path="res://images/cloud0.png" type="Texture" id=7]
-[ext_resource path="res://images/highlight.png" type="Texture" id=8]
-[ext_resource path="res://plane.gd" type="Script" id=9]
-[ext_resource path="res://images/palne.png" type="Texture" id=10]
-[ext_resource path="res://images/rocket.png" type="Texture" id=11]
-[ext_resource path="res://images/exhaust.png" type="Texture" id=12]
-[ext_resource path="res://target.gd" type="Script" id=13]
-[ext_resource path="res://images/apk.png" type="Texture" id=14]
+[ext_resource path="res://camera.gd" type="Script" id=1]
+[ext_resource path="res://images/park.hdr" type="Texture" id=2]
+[ext_resource path="res://material_points.gd" type="Script" id=3]
+[ext_resource path="res://sphere_material.tres" type="Material" id=4]
+[ext_resource path="res://sphere.gd" type="Script" id=5]
 
-[sub_resource type="ParticlesMaterial" id=1]
+[sub_resource type="PanoramaSky" id=1]
 
-render_priority = 0
-trail_divisor = 1
-emission_shape = 2
-emission_box_extents = Vector3( 1, 50, 1 )
-flag_align_y = false
-flag_rotate_y = false
-flag_disable_z = true
-spread = 0.0
-flatness = 0.0
-gravity = Vector3( 0, 0, 0 )
-initial_velocity = 10.0
-initial_velocity_random = 0.0
-angular_velocity = 2.04477e-41
-angular_velocity_random = 0.0
-orbit_velocity = 0.0
-orbit_velocity_random = 0.0
-linear_accel = 0.0
-linear_accel_random = 0.0
-radial_accel = 0.0
-radial_accel_random = 0.0
-tangential_accel = 0.0
-tangential_accel_random = 0.0
-damping = 0.0
-damping_random = 0.0
-angle = 0.0
-angle_random = 0.0
-scale = 1.0
-scale_random = 0.0
-color = Color( 1, 1, 1, 1 )
-hue_variation = 0.0
-hue_variation_random = 0.0
-anim_speed = 0.0
-anim_speed_random = 0.0
-anim_offset = 0.0
-anim_offset_random = 0.0
-anim_loop = false
-_sections_unfolded = [ "Emission Shape", "Gravity", "Initial Velocity", "Scale", "Spread" ]
+radiance_size = 4
+panorama = ExtResource( 2 )
 
-[sub_resource type="Animation" id=2]
+[sub_resource type="Environment" id=2]
 
-length = 0.8
-loop = true
-step = 0.1
-tracks/0/type = "value"
-tracks/0/path = NodePath("exhaust:frame")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/keys = {
-"times": PoolRealArray( 0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7 ),
-"transitions": PoolRealArray( 1, 1, 1, 1, 1, 1, 1, 1 ),
-"update": 1,
-"values": [ 0, 1, 2, 3, 4, 5, 6, 7 ]
-}
+background_mode = 0
+background_sky = SubResource( 1 )
+background_sky_custom_fov = 0.0
+background_color = Color( 0, 0, 0, 1 )
+background_energy = 1.0
+background_canvas_max_layer = 0
+ambient_light_color = Color( 0.856323, 0.874748, 0.898438, 1 )
+ambient_light_energy = 1.0
+ambient_light_sky_contribution = 1.0
+fog_enabled = false
+fog_color = Color( 0.5, 0.6, 0.7, 1 )
+fog_sun_color = Color( 1, 0.9, 0.7, 1 )
+fog_sun_amount = 0.0
+fog_depth_enabled = true
+fog_depth_begin = 10.0
+fog_depth_curve = 1.0
+fog_transmit_enabled = false
+fog_transmit_curve = 1.0
+fog_height_enabled = false
+fog_height_min = 0.0
+fog_height_max = 100.0
+fog_height_curve = 1.0
+tonemap_mode = 0
+tonemap_exposure = 1.0
+tonemap_white = 1.0
+auto_exposure_enabled = false
+auto_exposure_scale = 0.4
+auto_exposure_min_luma = 0.05
+auto_exposure_max_luma = 8.0
+auto_exposure_speed = 0.5
+ss_reflections_enabled = false
+ss_reflections_max_steps = 64
+ss_reflections_fade_in = 0.15
+ss_reflections_fade_out = 2.0
+ss_reflections_depth_tolerance = 0.2
+ss_reflections_roughness = true
+ssao_enabled = false
+ssao_radius = 1.0
+ssao_intensity = 1.0
+ssao_radius2 = 0.0
+ssao_intensity2 = 1.0
+ssao_bias = 0.01
+ssao_light_affect = 0.0
+ssao_color = Color( 0, 0, 0, 1 )
+ssao_quality = 0
+ssao_blur = 3
+ssao_edge_sharpness = 4.0
+dof_blur_far_enabled = false
+dof_blur_far_distance = 10.0
+dof_blur_far_transition = 5.0
+dof_blur_far_amount = 0.1
+dof_blur_far_quality = 1
+dof_blur_near_enabled = false
+dof_blur_near_distance = 2.0
+dof_blur_near_transition = 1.0
+dof_blur_near_amount = 0.1
+dof_blur_near_quality = 1
+glow_enabled = false
+glow_levels/1 = false
+glow_levels/2 = false
+glow_levels/3 = true
+glow_levels/4 = false
+glow_levels/5 = true
+glow_levels/6 = false
+glow_levels/7 = false
+glow_intensity = 0.8
+glow_strength = 1.0
+glow_bloom = 0.0
+glow_blend_mode = 2
+glow_hdr_threshold = 1.0
+glow_hdr_scale = 2.0
+glow_bicubic_upscale = false
+adjustment_enabled = false
+adjustment_brightness = 1.0
+adjustment_contrast = 1.0
+adjustment_saturation = 1.0
+_sections_unfolded = [ "Ambient Light", "Background" ]
 
-[node name="main" type="Node" index="0"]
+[sub_resource type="SphereMesh" id=3]
 
-[node name="background_layer" type="Control" parent="." index="0"]
+radius = 1.0
+height = 2.0
+radial_segments = 64
+rings = 32
+is_hemisphere = false
 
-anchor_left = 0.0
-anchor_top = 0.0
-anchor_right = 1.0
-anchor_bottom = 1.0
-rect_pivot_offset = Vector2( 0, 0 )
-mouse_filter = 0
-mouse_default_cursor_shape = 0
-size_flags_horizontal = 1
-size_flags_vertical = 1
-_sections_unfolded = [ "Size Flags", "Theme" ]
+[node name="Node" type="Node" index="0"]
 
-[node name="Background" type="TextureRect" parent="background_layer" index="0"]
+[node name="Enviroment" type="Node" parent="." index="0"]
 
-anchor_left = 0.0
-anchor_top = 0.0
-anchor_right = 0.0
-anchor_bottom = 0.0
-margin_right = 720.0
-margin_bottom = 270.0
-rect_scale = Vector2( 2, 2 )
-rect_pivot_offset = Vector2( 0, 0 )
-mouse_filter = 1
-mouse_default_cursor_shape = 0
-size_flags_horizontal = 3
-size_flags_vertical = 1
-texture = ExtResource( 1 )
-stretch_mode = 2
-_sections_unfolded = [ "Anchor", "Focus", "Grow Direction", "Hint", "Margin", "Material", "Mouse", "Rect", "Size Flags", "Visibility" ]
-__meta__ = {
-"_edit_lock_": true
-}
+[node name="Camera" type="Camera" parent="Enviroment" index="0"]
 
-[node name="sun" type="Sprite" parent="background_layer" index="1"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.95313, 3.96527 )
+keep_aspect = 1
+cull_mask = 1048575
+environment = null
+h_offset = 0.0
+v_offset = 0.0
+doppler_tracking = 0
+projection = 0
+current = false
+fov = 60.0
+size = 1.0
+near = 2.0
+far = 100.0
+script = ExtResource( 1 )
 
-position = Vector2( 172, 204 )
-scale = Vector2( 2, 2 )
-texture = ExtResource( 2 )
-_sections_unfolded = [ "Transform" ]
+[node name="WorldEnvironment" type="WorldEnvironment" parent="Enviroment" index="1"]
 
-[node name="clouds" type="Node2D" parent="background_layer" index="2"]
+environment = SubResource( 2 )
+_sections_unfolded = [ "Pause" ]
 
-editor/display_folded = true
-position = Vector2( -55.1756, 288.243 )
+[node name="OmniLight" type="OmniLight" parent="Enviroment" index="2"]
 
-[node name="Particles2D" type="Particles2D" parent="background_layer/clouds" index="0"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0.254496, 3.75339, 4.25873 )
+visible = false
+layers = 1
+light_color = Color( 1, 1, 0.784314, 1 )
+light_energy = 1.0
+light_indirect_energy = 1.0
+light_negative = false
+light_specular = 0.5
+light_bake_mode = 1
+light_cull_mask = -1
+shadow_enabled = false
+shadow_color = Color( 0, 0, 0, 1 )
+shadow_bias = 0.15
+shadow_contact = 0.0
+shadow_reverse_cull_face = false
+editor_only = false
+omni_range = 100.0
+omni_attenuation = 1.0
+omni_shadow_mode = 1
+omni_shadow_detail = 1
+_sections_unfolded = [ "Light", "Omni" ]
 
-emitting = true
-amount = 3
-lifetime = 100.0
-one_shot = false
-preprocess = 100.0
-speed_scale = 1.0
-explosiveness = 0.0
-randomness = 1.0
-fixed_fps = 0
-fract_delta = true
-visibility_rect = Rect2( -100, -100, 200, 200 )
-local_coords = true
-draw_order = 0
-process_material = SubResource( 1 )
-texture = ExtResource( 3 )
-normal_map = null
-h_frames = 1
-v_frames = 1
-_sections_unfolded = [ "Material", "Process Material", "Textures", "Time" ]
+[node name="material_points" type="Node" parent="Enviroment" index="3"]
 
-[node name="Particles2D2" type="Particles2D" parent="background_layer/clouds" index="1"]
+script = ExtResource( 3 )
+_sections_unfolded = [ "Pause" ]
 
-emitting = true
-amount = 4
-lifetime = 100.0
-one_shot = false
-preprocess = 100.0
-speed_scale = 1.0
-explosiveness = 0.0
-randomness = 1.0
-fixed_fps = 0
-fract_delta = true
-visibility_rect = Rect2( -100, -100, 200, 200 )
-local_coords = true
-draw_order = 0
-process_material = SubResource( 1 )
-texture = ExtResource( 4 )
-normal_map = null
-h_frames = 1
-v_frames = 1
-_sections_unfolded = [ "Material", "Process Material", "Textures", "Time" ]
+[node name="sphere" type="MeshInstance" parent="Enviroment/material_points" index="0"]
 
-[node name="Particles2D3" type="Particles2D" parent="background_layer/clouds" index="2"]
+layers = 1
+material_override = null
+cast_shadow = 1
+extra_cull_margin = 0.0
+use_in_baked_light = false
+lod_min_distance = 0.0
+lod_min_hysteresis = 0.0
+lod_max_distance = 0.0
+lod_max_hysteresis = 0.0
+mesh = SubResource( 3 )
+skeleton = NodePath("..")
+material/0 = ExtResource( 4 )
+script = ExtResource( 5 )
+_sections_unfolded = [ "Transform", "material" ]
 
-emitting = true
-amount = 6
-lifetime = 100.0
-one_shot = false
-preprocess = 100.0
-speed_scale = 1.0
-explosiveness = 0.0
-randomness = 1.0
-fixed_fps = 0
-fract_delta = true
-visibility_rect = Rect2( -100, -100, 200, 200 )
-local_coords = true
-draw_order = 0
-process_material = SubResource( 1 )
-texture = ExtResource( 5 )
-normal_map = null
-h_frames = 1
-v_frames = 1
-_sections_unfolded = [ "Material", "Process Material", "Textures", "Time" ]
+[node name="sphere2" type="MeshInstance" parent="Enviroment/material_points" index="1"]
 
-[node name="Particles2D4" type="Particles2D" parent="background_layer/clouds" index="3"]
-
-emitting = true
-amount = 8
-lifetime = 100.0
-one_shot = false
-preprocess = 100.0
-speed_scale = 1.0
-explosiveness = 0.0
-randomness = 1.0
-fixed_fps = 0
-fract_delta = true
-visibility_rect = Rect2( -100, -100, 200, 200 )
-local_coords = true
-draw_order = 0
-process_material = SubResource( 1 )
-texture = ExtResource( 6 )
-normal_map = null
-h_frames = 1
-v_frames = 1
-_sections_unfolded = [ "Material", "Process Material", "Textures", "Time" ]
-
-[node name="Particles2D5" type="Particles2D" parent="background_layer/clouds" index="4"]
-
-emitting = true
-amount = 12
-lifetime = 100.0
-one_shot = false
-preprocess = 100.0
-speed_scale = 1.0
-explosiveness = 0.0
-randomness = 1.0
-fixed_fps = 0
-fract_delta = true
-visibility_rect = Rect2( -100, -100, 200, 200 )
-local_coords = true
-draw_order = 0
-process_material = SubResource( 1 )
-texture = ExtResource( 7 )
-normal_map = null
-h_frames = 1
-v_frames = 1
-_sections_unfolded = [ "Material", "Process Material", "Textures", "Time", "Transform" ]
-
-[node name="clouds_close" type="Node2D" parent="background_layer" index="3"]
-
-editor/display_folded = true
-position = Vector2( -55.1756, 288.243 )
-scale = Vector2( 2, 2 )
-_sections_unfolded = [ "Transform" ]
-
-[node name="Particles2D" type="Particles2D" parent="background_layer/clouds_close" index="0"]
-
-emitting = true
-amount = 2
-lifetime = 60.0
-one_shot = false
-preprocess = 100.0
-speed_scale = 1.0
-explosiveness = 0.0
-randomness = 1.0
-fixed_fps = 0
-fract_delta = true
-visibility_rect = Rect2( -100, -100, 200, 200 )
-local_coords = true
-draw_order = 0
-process_material = SubResource( 1 )
-texture = ExtResource( 3 )
-normal_map = null
-h_frames = 1
-v_frames = 1
-_sections_unfolded = [ "Material", "Process Material", "Textures", "Time", "Transform" ]
-
-[node name="Particles2D2" type="Particles2D" parent="background_layer/clouds_close" index="1"]
-
-emitting = true
-amount = 1
-lifetime = 60.0
-one_shot = false
-preprocess = 100.0
-speed_scale = 1.0
-explosiveness = 0.0
-randomness = 1.0
-fixed_fps = 0
-fract_delta = true
-visibility_rect = Rect2( -100, -100, 200, 200 )
-local_coords = true
-draw_order = 0
-process_material = SubResource( 1 )
-texture = ExtResource( 4 )
-normal_map = null
-h_frames = 1
-v_frames = 1
-_sections_unfolded = [ "Material", "Process Material", "Textures", "Time" ]
-
-[node name="Particles2D3" type="Particles2D" parent="background_layer/clouds_close" index="2"]
-
-emitting = true
-amount = 4
-lifetime = 60.0
-one_shot = false
-preprocess = 100.0
-speed_scale = 1.0
-explosiveness = 0.0
-randomness = 1.0
-fixed_fps = 0
-fract_delta = true
-visibility_rect = Rect2( -100, -100, 200, 200 )
-local_coords = true
-draw_order = 0
-process_material = SubResource( 1 )
-texture = ExtResource( 5 )
-normal_map = null
-h_frames = 1
-v_frames = 1
-_sections_unfolded = [ "Material", "Process Material", "Textures", "Time" ]
-
-[node name="Particles2D4" type="Particles2D" parent="background_layer/clouds_close" index="3"]
-
-emitting = true
-amount = 5
-lifetime = 60.0
-one_shot = false
-preprocess = 100.0
-speed_scale = 1.0
-explosiveness = 0.0
-randomness = 1.0
-fixed_fps = 0
-fract_delta = true
-visibility_rect = Rect2( -100, -100, 200, 200 )
-local_coords = true
-draw_order = 0
-process_material = SubResource( 1 )
-texture = ExtResource( 6 )
-normal_map = null
-h_frames = 1
-v_frames = 1
-_sections_unfolded = [ "Material", "Process Material", "Textures", "Time" ]
-
-[node name="Particles2D5" type="Particles2D" parent="background_layer/clouds_close" index="4"]
-
-emitting = true
-amount = 6
-lifetime = 60.0
-one_shot = false
-preprocess = 100.0
-speed_scale = 1.0
-explosiveness = 0.0
-randomness = 1.0
-fixed_fps = 0
-fract_delta = true
-visibility_rect = Rect2( -100, -100, 200, 200 )
-local_coords = true
-draw_order = 0
-process_material = SubResource( 1 )
-texture = ExtResource( 7 )
-normal_map = null
-h_frames = 1
-v_frames = 1
-_sections_unfolded = [ "Material", "Process Material", "Textures", "Time" ]
-
-[node name="highlight" type="Sprite" parent="background_layer" index="4"]
-
-position = Vector2( 40, 394 )
-scale = Vector2( 2, 2 )
-texture = ExtResource( 8 )
-centered = false
-_sections_unfolded = [ "Offset", "Transform" ]
-
-[node name="plane" type="Node2D" parent="." index="1"]
-
-editor/display_folded = true
-position = Vector2( 100, 100 )
-script = ExtResource( 9 )
-_sections_unfolded = [ "Transform" ]
-
-[node name="plane" type="Sprite" parent="plane" index="0"]
-
-editor/display_folded = true
-scale = Vector2( 2, 2 )
-texture = ExtResource( 10 )
-_sections_unfolded = [ "Animation", "Offset", "Transform", "Z Index" ]
-__meta__ = {
-"_edit_lock_": true
-}
-
-[node name="rocket" type="Sprite" parent="plane/plane" index="0"]
-
-position = Vector2( -6.5, 7 )
-z_index = -1
-texture = ExtResource( 11 )
-_sections_unfolded = [ "Transform", "Z Index" ]
-__meta__ = {
-"_edit_lock_": true
-}
-
-[node name="exhaust" type="Sprite" parent="plane/plane" index="1"]
-
-position = Vector2( -37, 1 )
-texture = ExtResource( 12 )
-centered = false
-vframes = 8
-frame = 4
-_sections_unfolded = [ "Animation", "Transform" ]
-__meta__ = {
-"_edit_lock_": true
-}
-
-[node name="AnimationPlayer" type="AnimationPlayer" parent="plane/plane" index="2"]
-
-root_node = NodePath("..")
-autoplay = "exhaust"
-playback_process_mode = 1
-playback_default_blend_time = 0.0
-playback_speed = 1.0
-anims/exhaust = SubResource( 2 )
-blend_times = [  ]
-
-[node name="target" type="Node2D" parent="." index="2"]
-
-position = Vector2( 260, 440 )
-script = ExtResource( 13 )
-_sections_unfolded = [ "Transform" ]
-
-[node name="target" type="Sprite" parent="target" index="0"]
-
-scale = Vector2( 2, 2 )
-texture = ExtResource( 14 )
-_sections_unfolded = [ "Offset", "Transform", "Z Index" ]
-__meta__ = {
-"_edit_lock_": true
-}
+layers = 1
+material_override = null
+cast_shadow = 1
+extra_cull_margin = 0.0
+use_in_baked_light = false
+lod_min_distance = 0.0
+lod_min_hysteresis = 0.0
+lod_max_distance = 0.0
+lod_max_hysteresis = 0.0
+mesh = SubResource( 3 )
+skeleton = NodePath("..")
+material/0 = ExtResource( 4 )
+script = ExtResource( 5 )
+_sections_unfolded = [ "Transform", "material" ]
 
 
