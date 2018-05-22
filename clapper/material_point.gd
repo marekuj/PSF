@@ -10,8 +10,10 @@ var zero_tolerance    = 0.00001
 var mass      = 1.0
 var mu        = 1.0 # 1./mass
 
+var node_mass = 0
+var node_body = 0
+
 var is_static = false
-onready var sphere = $"../sphere"
 onready var point = $"point"
 onready var arrow = $"point/arrow"
 onready var arrowhead  = $"point/arrowhead"
@@ -40,28 +42,8 @@ var iter = 0
 func _physics_process(delta):
 	if !is_static:
 		verlet(delta)
-		if iter == 100:
-			iter = 0
-		else:
-			iter+=1
-	# TODO
-	var dist = position - get_parent().sphere.position
-	if dist.length() < radius() + get_parent().sphere.radius + 0.1:
-		#is_static = true
-		var n = dist.normalized()
-		var v_r = velocity.dot(n) * n
-		var v_p = velocity - v_r;
-		velocity = v_p - v_r
-		
-		var F = force(delta)
-		var F_r = F.dot(n) * n
-		#var F_p = F - F_r
-		var R = -F_r 
-		var T = -0.5 * F_r * v_p.normalized()
-
-		euler(delta, F + R + T)
-	# TODO RND
-
+		collision_sphere(delta, node_mass)
+		collision_sphere(delta, node_body)
 
 func _process(delta):
 	if !is_static:
@@ -83,21 +65,34 @@ func set_mass(m):
 	mass = m
 	mu   = pow( m, -1.0 )
 
+func collision_sphere(delta, node):
+	var dist = position - node.position
+	if dist.length() < radius() + node.radius + 0.1:
+		var n = dist.normalized()
+		var v_r = velocity.dot(n) * n
+		var v_p = velocity - v_r;
+		velocity = v_p - v_r
+		var F = force(delta)
+		var F_r = F.dot(n) * n
+		var R = -F_r 
+		var T = -0.5 * F_r * v_p.normalized()
+		euler(delta, F + R + T)
+
 func euler(delta,f=force(delta)):
 	velocity += f * mu * delta
 	previous_position = position
 	position += velocity * delta
 
-func verlet(delta,f=force(delta)):
+func verlet(delta, f=force(delta)):
 	var new_position  = 2 * position - previous_position + f * mu * pow( delta , 2.0 )
 	previous_position = position
 	position          = new_position
 	velocity          = ( position - previous_position ) / delta
 	
 func force(delta):
-	var distance = position - get_parent().sphere.position
+	var distance = position - node_mass.position
 	gravity = Vector3(0,0,0)
-	if distance.length() > 0.02:
+	if distance.length() > 0.01:
 		gravity = -self.mass*distance*pow(distance.length(),-3)
 		viscosity = -0.4*self.velocity
 	if distance.length() > 10:

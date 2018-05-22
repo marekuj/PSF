@@ -10,7 +10,7 @@ radial_segments = 64
 rings = 32
 is_hemisphere = false
 
-[sub_resource type="CylinderMesh" id=3]
+[sub_resource type="CylinderMesh" id=2]
 
 top_radius = 1.0
 bottom_radius = 1.0
@@ -18,7 +18,7 @@ height = 2.0
 radial_segments = 64
 rings = 4
 
-[sub_resource type="PrismMesh" id=4]
+[sub_resource type="PrismMesh" id=3]
 
 left_to_right = 0.5
 size = Vector3( 2, 2, 2 )
@@ -59,7 +59,7 @@ lod_min_distance = 0.0
 lod_min_hysteresis = 0.0
 lod_max_distance = 0.0
 lod_max_hysteresis = 0.0
-mesh = SubResource( 3 )
+mesh = SubResource( 2 )
 skeleton = NodePath("..")
 material/0 = null
 _sections_unfolded = [ "Transform", "material" ]
@@ -76,7 +76,7 @@ lod_min_distance = 0.0
 lod_min_hysteresis = 0.0
 lod_max_distance = 0.0
 lod_max_hysteresis = 0.0
-mesh = SubResource( 4 )
+mesh = SubResource( 3 )
 skeleton = NodePath("..")
 material/0 = null
 _sections_unfolded = [ "Transform", "material" ]

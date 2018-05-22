@@ -5,7 +5,8 @@ var NUM = 40
 var e = 0.0 # wsp. restytucji
 
 var node_object = load("material_point.tscn")
-onready var sphere = $sphere
+onready var node_mass = $mass
+onready var node_body = $body
 
 func _ready():
 	create_scene()
@@ -40,5 +41,7 @@ func create_scene():
 		var phi   = 2*PI*randf()
 		var theta = -0.5*PI + PI*randf()
 		new_node.position = r*Vector3(cos(phi)*sin(theta),cos(theta),sin(phi)*sin(theta))
+		new_node.node_mass = node_mass
+		new_node.node_body = node_body
 		Nds.push_back(new_node)
 		add_child(new_node)
