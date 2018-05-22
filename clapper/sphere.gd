@@ -15,3 +15,11 @@ func _ready():
 #	# Called every frame. Delta is time since last frame.
 #	# Update game logic here.
 #	pass
+
+
+func _on_Area_input_event(camera, event, click_position, click_normal, shape_idx):
+	if event.button_mask == BUTTON_MASK_LEFT:
+		var dist = camera.get_translation().distance_to(get_translation())
+		var click_in_camera = camera.to_local(click_position)
+		position = camera.to_global(click_in_camera.normalized() * dist)
+		set_translation(position)

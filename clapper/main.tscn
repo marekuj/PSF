@@ -1,4 +1,4 @@
-[gd_scene load_steps=10 format=2]
+[gd_scene load_steps=12 format=2]
 
 [ext_resource path="res://camera.gd" type="Script" id=1]
 [ext_resource path="res://images/park.hdr" type="Texture" id=2]
@@ -155,6 +155,14 @@ proximity_fade_enable = false
 distance_fade_enable = false
 _sections_unfolded = [ "Albedo", "Emission" ]
 
+[sub_resource type="SphereShape" id=5]
+
+radius = 1.0
+
+[sub_resource type="SphereShape" id=6]
+
+radius = 1.0
+
 [node name="Node" type="Node" index="0"]
 
 [node name="Enviroment" type="Node" parent="." index="0"]
@@ -228,9 +236,37 @@ material/0 = SubResource( 4 )
 script = ExtResource( 4 )
 _sections_unfolded = [ "Transform", "material" ]
 
+[node name="Area" type="Area" parent="Enviroment/material_points/mass" index="0"]
+
+input_ray_pickable = true
+input_capture_on_drag = false
+space_override = 0
+gravity_point = false
+gravity_distance_scale = 0.0
+gravity_vec = Vector3( 0, -1, 0 )
+gravity = 9.8
+linear_damp = 0.1
+angular_damp = 1.0
+priority = 0.0
+monitoring = true
+monitorable = true
+collision_layer = 1
+collision_mask = 1
+audio_bus_override = false
+audio_bus_name = "Master"
+reverb_bus_enable = false
+reverb_bus_name = "Master"
+reverb_bus_amount = 0.0
+reverb_bus_uniformity = 0.0
+
+[node name="CollisionShape" type="CollisionShape" parent="Enviroment/material_points/mass/Area" index="0"]
+
+shape = SubResource( 5 )
+disabled = false
+
 [node name="body" type="MeshInstance" parent="Enviroment/material_points" index="1"]
 
-transform = Transform( 2.95794, -0.00213883, 0.00320322, 0.00214349, 2.95794, -0.00426568, -0.0032001, 0.00426802, 2.95794, -0.10495, 0.980573, -2.53084 )
+transform = Transform( 3, -0.00216928, 0.00324873, 0.00217397, 3, -0.00432635, -0.0032456, 0.0043287, 3, -0.10495, 0.980573, -2.53084 )
 layers = 1
 material_override = null
 cast_shadow = 1
@@ -245,5 +281,39 @@ skeleton = NodePath("..")
 material/0 = ExtResource( 5 )
 script = ExtResource( 4 )
 _sections_unfolded = [ "Transform", "material" ]
+
+[node name="Area" type="Area" parent="Enviroment/material_points/body" index="0"]
+
+input_ray_pickable = false
+input_capture_on_drag = false
+space_override = 0
+gravity_point = false
+gravity_distance_scale = 0.0
+gravity_vec = Vector3( 0, -1, 0 )
+gravity = 9.8
+linear_damp = 0.1
+angular_damp = 1.0
+priority = 0.0
+monitoring = true
+monitorable = true
+collision_layer = 1
+collision_mask = 1
+audio_bus_override = false
+audio_bus_name = "Master"
+reverb_bus_enable = false
+reverb_bus_name = "Master"
+reverb_bus_amount = 0.0
+reverb_bus_uniformity = 0.0
+
+[node name="CollisionShape" type="CollisionShape" parent="Enviroment/material_points/body/Area" index="0"]
+
+transform = Transform( 1, 4.3201e-12, 1.16415e-10, -4.3201e-12, 1, -1.16415e-10, -1.16415e-10, 1.16415e-10, 1, 0, 0, 0 )
+shape = SubResource( 6 )
+disabled = false
+_sections_unfolded = [ "Transform" ]
+
+[connection signal="input_event" from="Enviroment/material_points/mass/Area" to="Enviroment/material_points/mass" method="_on_Area_input_event"]
+
+[connection signal="input_event" from="Enviroment/material_points/body/Area" to="Enviroment/material_points/body" method="_on_Area_input_event"]
 
 

@@ -25,15 +25,15 @@ func _physics_process( delta ):
 
 	look_at_from_position( Vector3 ( x, y, z ), camera_target, camera_up_vector )
 
-func _input(event):
+func _input(event):	
 	if event is InputEventMouseMotion:
-		if event.button_mask == 4:
+		if event.button_mask == BUTTON_MASK_MIDDLE:
 			yaw     -= event.relative.x * sensitivity
 			pitch    = clamp ( pitch + event.relative.y * sensitivity, -80, 80)
 		
 	if event is InputEventMouseButton:
-		if (event.pressed and event.button_index == 4):
+		if (event.pressed and event.button_index == BUTTON_WHEEL_UP):
 			camera_distance_to_center = clamp( camera_distance_to_center - scoll_speed, 4, 400)
-
-		if (event.pressed and event.button_index == 5):
+		elif (event.pressed and event.button_index == BUTTON_WHEEL_DOWN):
 			camera_distance_to_center = clamp( camera_distance_to_center + scoll_speed, 4, 400)
+	

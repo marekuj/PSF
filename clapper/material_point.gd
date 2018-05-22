@@ -93,13 +93,13 @@ func force(delta):
 	var distance = position - node_mass.position
 	gravity = Vector3(0,0,0)
 	if distance.length() > 0.01:
-		gravity = -self.mass*distance*pow(distance.length(),-3)
+		gravity = -self.mass * distance * pow(distance.length(), -3)
 		viscosity = -0.4*self.velocity
-	if distance.length() > 10:
-		if distance.dot(velocity) > 0:
-			viscosity *= 2
-		else:
-			gravity *= 10
+#	if distance.length() > 10:
+#		if distance.dot(velocity) > 0:
+#			viscosity *= 2
+#		else:
+#			gravity *= 10
 	return gravity + viscosity
 
 func radius():
