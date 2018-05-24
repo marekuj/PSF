@@ -1,0 +1,24 @@
+[remap]
+
+importer="wav"
+type="AudioStreamSample"
+path="res://.import/B-Tone.wav-ad16002299bd0913c960b973d52c3351.sample"
+
+[deps]
+
+source_file="res://sounds/B-Tone.wav"
+source_md5="7bd6c679821420accdf87fa528ede389"
+
+dest_files=[ "res://.import/B-Tone.wav-ad16002299bd0913c960b973d52c3351.sample" ]
+dest_md5="5ce155ec2dfe498ecb6bfae30d1239cb"
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=true
+edit/normalize=true
+edit/loop=false
+compress/mode=0

@@ -1,6 +1,8 @@
 
 extends Camera
 
+signal stop_drag
+
 var camera_position           = Vector3(0,0,0)
 var camera_target             = Vector3(0,0,0)
 var camera_up_vector          = Vector3(0,1,0)
@@ -30,10 +32,11 @@ func _input(event):
 		if event.button_mask == BUTTON_MASK_MIDDLE:
 			yaw     -= event.relative.x * sensitivity
 			pitch    = clamp ( pitch + event.relative.y * sensitivity, -80, 80)
-		
-	if event is InputEventMouseButton:
+
+	if event is InputEventMouseButton:		
 		if (event.pressed and event.button_index == BUTTON_WHEEL_UP):
 			camera_distance_to_center = clamp( camera_distance_to_center - scoll_speed, 4, 400)
 		elif (event.pressed and event.button_index == BUTTON_WHEEL_DOWN):
 			camera_distance_to_center = clamp( camera_distance_to_center + scoll_speed, 4, 400)
-	
+		elif (!event.pressed and event.button_index == BUTTON_LEFT):
+			emit_signal("stop_drag")

@@ -6,8 +6,8 @@
 
 radius = 1.0
 height = 2.0
-radial_segments = 64
-rings = 32
+radial_segments = 10
+rings = 10
 is_hemisphere = false
 
 [sub_resource type="CylinderMesh" id=2]
@@ -30,7 +30,7 @@ subdivide_depth = 0
 
 script = ExtResource( 1 )
 
-[node name="point" type="MeshInstance" parent="." index="0"]
+[node name="point_v" type="MeshInstance" parent="." index="0"]
 
 transform = Transform( 0.1, 0, 0, 0, 0.1, 0, 0, 0, 0.1, 0, 0, 0 )
 layers = 1
@@ -47,7 +47,7 @@ skeleton = NodePath("..")
 material/0 = null
 _sections_unfolded = [ "Transform", "material" ]
 
-[node name="arrow" type="MeshInstance" parent="point" index="0"]
+[node name="arrow" type="MeshInstance" parent="point_v" index="0"]
 
 transform = Transform( 0.2, 0, 0, 0, 10, 0, 0, 0, 0.2, 0, 0, 0 )
 layers = 1
@@ -64,7 +64,57 @@ skeleton = NodePath("..")
 material/0 = null
 _sections_unfolded = [ "Transform", "material" ]
 
-[node name="arrowhead" type="MeshInstance" parent="point" index="1"]
+[node name="arrowhead" type="MeshInstance" parent="point_v" index="1"]
+
+transform = Transform( 0.6, 0, 0, 0, 1, 0, 0, 0, 0.6, 0, 0, 0 )
+layers = 1
+material_override = null
+cast_shadow = 1
+extra_cull_margin = 0.0
+use_in_baked_light = false
+lod_min_distance = 0.0
+lod_min_hysteresis = 0.0
+lod_max_distance = 0.0
+lod_max_hysteresis = 0.0
+mesh = SubResource( 3 )
+skeleton = NodePath("..")
+material/0 = null
+_sections_unfolded = [ "Transform", "material" ]
+
+[node name="point_f" type="MeshInstance" parent="." index="1"]
+
+transform = Transform( 0.1, 0, 0, 0, 0.1, 0, 0, 0, 0.1, 0, 0, 0 )
+layers = 1
+material_override = null
+cast_shadow = 1
+extra_cull_margin = 0.0
+use_in_baked_light = false
+lod_min_distance = 0.0
+lod_min_hysteresis = 0.0
+lod_max_distance = 0.0
+lod_max_hysteresis = 0.0
+mesh = null
+skeleton = NodePath("..")
+_sections_unfolded = [ "Transform", "material" ]
+
+[node name="arrow" type="MeshInstance" parent="point_f" index="0"]
+
+transform = Transform( 0.2, 0, 0, 0, 10, 0, 0, 0, 0.2, 0, 0, 0 )
+layers = 1
+material_override = null
+cast_shadow = 1
+extra_cull_margin = 0.0
+use_in_baked_light = false
+lod_min_distance = 0.0
+lod_min_hysteresis = 0.0
+lod_max_distance = 0.0
+lod_max_hysteresis = 0.0
+mesh = SubResource( 2 )
+skeleton = NodePath("..")
+material/0 = null
+_sections_unfolded = [ "Transform", "material" ]
+
+[node name="arrowhead" type="MeshInstance" parent="point_f" index="1"]
 
 transform = Transform( 0.6, 0, 0, 0, 1, 0, 0, 0, 0.6, 0, 0, 0 )
 layers = 1

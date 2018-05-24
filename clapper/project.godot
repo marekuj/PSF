@@ -16,3 +16,10 @@ config/icon="res://icon.png"
 main_scene="res://main.tscn"
 name="Canvas"
 icon="red://icon.png"
+
+[input]
+
+ui_toggle_velocity=[ Object(InputEventKey,"resource_local_to_scene":false,"resource_name":"","device":0,"alt":false,"shift":false,"control":false,"meta":false,"command":false,"pressed":false,"scancode":86,"unicode":0,"echo":false,"script":null)
+ ]
+ui_toggle_force=[ Object(InputEventKey,"resource_local_to_scene":false,"resource_name":"","device":0,"alt":false,"shift":false,"control":false,"meta":false,"command":false,"pressed":false,"scancode":70,"unicode":0,"echo":false,"script":null)
+ ]

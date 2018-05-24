@@ -1,0 +1,24 @@
+[remap]
+
+importer="wav"
+type="AudioStreamSample"
+path="res://.import/A-Tone.wav-4a1a6cc7224fbfe07468fc6dc2b2e7f3.sample"
+
+[deps]
+
+source_file="res://sounds/A-Tone.wav"
+source_md5="4ebb633927148696d8cdc4228171c05e"
+
+dest_files=[ "res://.import/A-Tone.wav-4a1a6cc7224fbfe07468fc6dc2b2e7f3.sample" ]
+dest_md5="6a2481b816a06093185865136da20468"
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=true
+edit/normalize=true
+edit/loop=false
+compress/mode=0
