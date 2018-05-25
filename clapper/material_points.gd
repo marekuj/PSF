@@ -1,12 +1,12 @@
 extends Node
 
 var Nds = []  # węzły
-var NUM = 50
+var NUM = 0
 var e = 0.0 # wsp. restytucji
 
 var node_object = load("material_point.tscn")
 onready var node_mass = $mass
-onready var node_clapper = $clapper
+onready var node_clapper = $_clapper
 
 # *******************************************************************************************	
 onready var sound1 = $sound1
@@ -40,9 +40,6 @@ func _process(delta):
 func _physics_process(delta):
 	for i in range(Nds.size()):
 		for j in range(i):
-#		for j in range(Nds.size()):
-#			if i == j:
-#				continue
 			var dist = (Nds[i].position - Nds[j].position)
 			if(dist.length() < 2* Nds[i].radius() + Nds[j].radius()):
 				print("Collision of pts: ",i," and ",j)

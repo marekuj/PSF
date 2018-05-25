@@ -144,6 +144,8 @@ func set_mass(m):
 func collision(delta, node, hit_delta = 0.1):
 	var normal = node.collision(self, hit_delta)
 	if normal != null:
+		sound.play(0)
+
 		var new_velocity = new_velocity(velocity, normal, elasticity_factor)
 		var new_force = new_force(force, normal, velocity, friction_factor)
 #		var n = dist.normalized()
