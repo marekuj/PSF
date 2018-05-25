@@ -1,4 +1,4 @@
-[gd_scene load_steps=18 format=2]
+[gd_scene load_steps=19 format=2]
 
 [ext_resource path="res://camera.gd" type="Script" id=1]
 [ext_resource path="res://images/park.hdr" type="Texture" id=2]
@@ -167,12 +167,12 @@ radius = 1.0
 
 radius = 1.0
 
-[sub_resource type="SpatialMaterial" id=8]
+[sub_resource type="SpatialMaterial" id=7]
 
 render_priority = 0
-flags_transparent = false
+flags_transparent = true
 flags_unshaded = false
-flags_vertex_lighting = false
+flags_vertex_lighting = true
 flags_no_depth_test = false
 flags_use_point_size = false
 flags_world_triplanar = false
@@ -217,9 +217,13 @@ uv2_triplanar = false
 uv2_triplanar_sharpness = 1.0
 proximity_fade_enable = false
 distance_fade_enable = false
-_sections_unfolded = [ "Flags", "Vertex Color" ]
+_sections_unfolded = [ "Albedo", "Flags", "Parameters", "Vertex Color" ]
 
-[sub_resource type="SphereMesh" id=7]
+[sub_resource type="BoxShape" id=8]
+
+extents = Vector3( 1, 1, 1 )
+
+[sub_resource type="SphereMesh" id=9]
 
 radius = 0.2
 height = 0.4
@@ -284,9 +288,7 @@ _sections_unfolded = [ "Pause" ]
 
 [node name="mass" type="MeshInstance" parent="Enviroment/material_points" index="0"]
 
-editor/display_folded = true
 transform = Transform( 0.5, 0, 0, 0, 0.5, 0, 0, 0, 0.5, 7.07269, 0.397777, 0.270183 )
-visible = false
 layers = 1
 material_override = null
 cast_shadow = 1
@@ -332,9 +334,7 @@ disabled = false
 
 [node name="_clapper" type="MeshInstance" parent="Enviroment/material_points" index="1"]
 
-editor/display_folded = true
-transform = Transform( 2.99649, -0.0023806, -0.145049, 0.00217397, 3, -0.00432635, 0.145052, 0.00421618, 2.99649, 0, 0, 0 )
-visible = false
+transform = Transform( 2.99649, -0.0023806, -0.145049, 0.00217397, 3, -0.00432635, 0.145052, 0.00421618, 2.99649, -11.3404, 0, 0 )
 layers = 1
 material_override = null
 cast_shadow = 1
@@ -352,7 +352,7 @@ _sections_unfolded = [ "Pause", "Transform", "Visibility", "material" ]
 
 [node name="Area" type="Area" parent="Enviroment/material_points/_clapper" index="0"]
 
-input_ray_pickable = false
+input_ray_pickable = true
 input_capture_on_drag = false
 space_override = 0
 gravity_point = false
@@ -372,6 +372,7 @@ reverb_bus_enable = false
 reverb_bus_name = "Master"
 reverb_bus_amount = 0.0
 reverb_bus_uniformity = 0.0
+_sections_unfolded = [ "Audio Bus", "Collision", "Reverb Bus", "Transform", "Visibility" ]
 
 [node name="CollisionShape" type="CollisionShape" parent="Enviroment/material_points/_clapper/Area" index="0"]
 
@@ -421,19 +422,50 @@ doppler_tracking = 0
 [node name="clapper" type="ImmediateGeometry" parent="Enviroment/material_points" index="4"]
 
 layers = 1
-material_override = SubResource( 8 )
-cast_shadow = 1
+material_override = SubResource( 7 )
+cast_shadow = 0
 extra_cull_margin = 0.0
-use_in_baked_light = true
+use_in_baked_light = false
 lod_min_distance = 0.0
 lod_min_hysteresis = 0.0
 lod_max_distance = 0.0
 lod_max_hysteresis = 0.0
 script = ExtResource( 9 )
-_sections_unfolded = [ "Geometry", "Transform" ]
+_sections_unfolded = [ "Geometry", "Transform", "Visibility" ]
+
+[node name="Area" type="Area" parent="Enviroment/material_points/clapper" index="0"]
+
+input_ray_pickable = true
+input_capture_on_drag = true
+space_override = 0
+gravity_point = false
+gravity_distance_scale = 0.0
+gravity_vec = Vector3( 0, -1, 0 )
+gravity = 9.8
+linear_damp = 0.1
+angular_damp = 1.0
+priority = 0.0
+monitoring = true
+monitorable = true
+collision_layer = 1
+collision_mask = 1
+audio_bus_override = false
+audio_bus_name = "Master"
+reverb_bus_enable = false
+reverb_bus_name = "Master"
+reverb_bus_amount = 0.0
+reverb_bus_uniformity = 0.0
+_sections_unfolded = [ "Audio Bus", "Collision", "Transform" ]
+
+[node name="CollisionShape" type="CollisionShape" parent="Enviroment/material_points/clapper/Area" index="0"]
+
+shape = SubResource( 8 )
+disabled = false
+_sections_unfolded = [ "Transform" ]
 
 [node name="center" type="MeshInstance" parent="Enviroment/material_points" index="5"]
 
+visible = false
 layers = 1
 material_override = null
 cast_shadow = 1
@@ -443,16 +475,21 @@ lod_min_distance = 0.0
 lod_min_hysteresis = 0.0
 lod_max_distance = 0.0
 lod_max_hysteresis = 0.0
-mesh = SubResource( 7 )
+mesh = SubResource( 9 )
 skeleton = NodePath("..")
 material/0 = null
+_sections_unfolded = [ "Geometry", "Visibility" ]
+
+[connection signal="stop_drag" from="Enviroment/Camera" to="Enviroment/material_points/_clapper" method="_on_Camera_stop_drag"]
 
 [connection signal="stop_drag" from="Enviroment/Camera" to="Enviroment/material_points/mass" method="_on_Camera_stop_drag"]
 
-[connection signal="stop_drag" from="Enviroment/Camera" to="Enviroment/material_points/_clapper" method="_on_Camera_stop_drag"]
+[connection signal="stop_drag" from="Enviroment/Camera" to="Enviroment/material_points/clapper" method="_on_Camera_stop_drag"]
 
 [connection signal="input_event" from="Enviroment/material_points/mass/Area" to="Enviroment/material_points/mass" method="_on_Area_input_event"]
 
 [connection signal="input_event" from="Enviroment/material_points/_clapper/Area" to="Enviroment/material_points/_clapper" method="_on_Area_input_event"]
+
+[connection signal="input_event" from="Enviroment/material_points/clapper/Area" to="Enviroment/material_points/clapper" method="_on_Area_input_event"]
 
 

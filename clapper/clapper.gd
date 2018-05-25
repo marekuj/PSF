@@ -1,6 +1,10 @@
 extends ImmediateGeometry
 
 # *******************************************************************************************	
+var position = Vector3(0.0, 0.0, 0.0)
+var drag = false
+var camera = null
+
 var PT_1 = Vector3(-1.0,-1.0, 1.0)
 var PT_2 = Vector3(-1.0, 1.0, 1.0)
 var PT_3 = Vector3( 1.0, 1.0, 1.0)
@@ -17,83 +21,88 @@ var IDX_COLOR   = 1
 var IDX_POINT_1 = 2
 var IDX_POINT_2 = 3
 var IDX_POINT_3 = 4
+var IDX_POINT_T = 5
 
 var triangles = []  # punkty
 
 func make():
-	triangles.append(createTriangle(PT_1, PT_2, PT_3))
-	triangles.append(createTriangle(PT_1, PT_3, PT_4))
+#	triangles.append(createTriangle(PT_1, PT_2, PT_3))
+#	triangles.append(createTriangle(PT_1, PT_3, PT_4))
 	
-	triangles.append(createTriangle(PT_1, PT_6, PT_2))
-	triangles.append(createTriangle(PT_2, PT_6, PT_8))
-
+#	triangles.append(createTriangle(PT_1, PT_6, PT_2))
+#	triangles.append(createTriangle(PT_2, PT_6, PT_8))
+#
 	triangles.append(createTriangle(PT_3, PT_5, PT_7))
 	triangles.append(createTriangle(PT_4, PT_3, PT_7))
-
-	triangles.append(createTriangle(PT_5, PT_6, PT_7))
-	triangles.append(createTriangle(PT_5, PT_8, PT_6))
-	
-	triangles.append(createTriangle(PT_2, PT_5, PT_3))
-	triangles.append(createTriangle(PT_5, PT_2, PT_8))
-
-	triangles.append(createTriangle(PT_1, PT_4, PT_6))
-	triangles.append(createTriangle(PT_6, PT_4, PT_7))
+#
+#	triangles.append(createTriangle(PT_5, PT_6, PT_7))
+#	triangles.append(createTriangle(PT_5, PT_8, PT_6))
+#
+#	triangles.append(createTriangle(PT_2, PT_5, PT_3))
+#	triangles.append(createTriangle(PT_5, PT_2, PT_8))
+#
+#	triangles.append(createTriangle(PT_1, PT_4, PT_6))
+#	triangles.append(createTriangle(PT_6, PT_4, PT_7))
 
 
 func createTriangle(v1, v2, v3):
 	var n = (v3 - v2).cross(v1 - v2).normalized()
 #	var c = Color(1.0, 0.0, 0.0, 0.0)
-	var c = Color(abs(n.x), abs(n.y), abs(n.z), 0.6)
+	var c = Color(abs(n.x), abs(n.y), abs(n.z), 0.6)	
+	var t = (v1 + v2 + v3)/3 
+	return [n, c, v1, v2, v3, t]
 	
-	return [n, c, v1, v2, v3]
+func collision(pt, hit_delta = 0.1):
+	var P1 = to_local(pt.previous_position)
+	var P2 = to_local(pt.position)
+
+	for triangle in triangles:
+		var T = triangle[IDX_POINT_T]
+		var n = triangle[IDX_NORMAL]
+		if n.dot(P1-T) < hit_delta:
+			var t = n.dot(P1 - T) / n.dot(P1 - P2)
+			var P = (1 -t) * P1 + t * P2
+			print("Kolizja ", n.dot(P1-T)," w punkcie: ",  P)
+			var T1 = triangle[IDX_POINT_1]	
+			var T2 = triangle[IDX_POINT_2]	
+			var T3 = triangle[IDX_POINT_3]	
+			if (T2 - T1).cross(P - T1).dot(n) >= 0 and (T3 - T2).cross(P - T2).dot(n) >= 0 and (T1 - T3).cross(P - T3).dot(n) >= 0:
+				print("Trafienie: ", triangle)
+#				return n;
+	return null
+	
 # *******************************************************************************************	
 	
 func _ready():
+	position = get_translation();
+	camera = get_parent().get_parent().get_node("Camera")
+
 	make()
-#	begin( VisualServer.PRIMITIVE_TRIANGLES, null )
-#	for i in range(NUM-1):
-#		for j in range(NUM-1):
-#			# first triangle			
-#			set_normal( (get_parent().Nds[NUM * (i+1) + j + 1 ].position-get_parent().Nds[NUM * (i+1) + j ].position).cross(get_parent().Nds[NUM * (i  ) + j ].position-get_parent().Nds[NUM * (i+1) + j ].position).normalized() )
-#			set_uv( Vector2( float(i)/NUM, float(j)/NUM ) )
-#			add_vertex( get_parent().Nds[NUM * (i  ) + j ].position )
-#			set_uv( Vector2( float(i+1)/NUM, float(j+1)/NUM ) )
-#			add_vertex( get_parent().Nds[NUM * (i+1) + j + 1 ].position )
-#			set_uv( Vector2( float(i+1)/NUM, float(j)/NUM ) )
-#			add_vertex( get_parent().Nds[NUM * (i+1) + j ].position )
-#			# second triangle
-#			set_normal( (get_parent().Nds[NUM * (i  ) + j ].position-get_parent().Nds[NUM * (i  ) + j + 1 ].position).cross(get_parent().Nds[NUM * (i+1) + j + 1 ].position-get_parent().Nds[NUM * (i  ) + j + 1 ].position).normalized() )
-#			set_uv( Vector2( float(i)/NUM, float(j)/NUM ) )
-#			add_vertex( get_parent().Nds[NUM * (i  ) + j ].position )
-#			set_uv( Vector2( float(i)/NUM, float(j+1)/NUM ) )
-#			add_vertex( get_parent().Nds[NUM * (i  ) + j + 1 ].position )
-#			set_uv( Vector2( float(i+1)/NUM, float(j+1)/NUM ) )
-#			add_vertex( get_parent().Nds[NUM * (i+1) + j + 1 ].position )
-#	end()
-	
+
 	begin(VisualServer.PRIMITIVE_TRIANGLES)
 	for triangle in triangles:
-		print(triangle[IDX_NORMAL])
+		print("Normal: ", triangle[IDX_NORMAL])
 		set_color(triangle[IDX_COLOR]) 
 		set_normal(triangle[IDX_NORMAL])
 		add_vertex(get_translation() + triangle[IDX_POINT_1]) 
 		add_vertex(get_translation() + triangle[IDX_POINT_2]) 
 		add_vertex(get_translation() + triangle[IDX_POINT_3]) 
 	end()	
-		
-#	begin(VisualServer.PRIMITIVE_TRIANGLES)
-#
-#	set_color(Color(1,0,0))
-#	add_vertex(get_translation() + Vector3(-1.0,-1.0, 1.0)) 
-#	add_vertex(get_translation() + Vector3(-1.0, 1.0, 1.0)) 
-#	add_vertex(get_translation() + Vector3(-1.0,-1.0,-1.0)) 
-#
-#	set_color(Color(1,1,0))
-#	add_vertex(get_translation() + Vector3(-2.0,-1.0, 1.0)) 
-#	add_vertex(get_translation() + Vector3(-2.0, 1.0, 1.0)) 
-#	add_vertex(get_translation() + Vector3(-2.0,-1.0,-1.0)) 
-#	end()	
 
 func _physics_process(delta):
-#	print("tomne")
-	pass
+	if drag && camera:
+		var mouse_pos = get_viewport().get_mouse_position()
+		var click_position = camera.project_position(mouse_pos)		
+		var dist = camera.get_translation().distance_to(get_translation())
+		var click_in_camera = camera.to_local(click_position)
+		position = camera.to_global(click_in_camera.normalized() * dist)
+		set_translation(position)
+
+func _on_Camera_stop_drag():
+	drag = false	
+
+
+func _on_Area_input_event(camera, event, click_position, click_normal, shape_idx):
+	if event is InputEventMouseButton:		
+		if (event.pressed and event.button_index == BUTTON_LEFT):
+				drag = true

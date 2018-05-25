@@ -1,12 +1,12 @@
 extends Node
 
 var Nds = []  # węzły
-var NUM = 0
+var NUM = 1
 var e = 0.0 # wsp. restytucji
 
 var node_object = load("material_point.tscn")
 onready var node_mass = $mass
-onready var node_clapper = $_clapper
+onready var node_clapper = $clapper
 
 # *******************************************************************************************	
 onready var sound1 = $sound1
@@ -32,7 +32,6 @@ func _ready():
 		pt.show_force(show_force) 
 		pt.show_velocity(show_velocity) 
 		pt.sound=sound1
-	node_clapper.Nds = Nds
 
 func _process(delta):
 	pass

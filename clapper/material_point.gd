@@ -166,12 +166,14 @@ func collision(delta, node, hit_delta = 0.1):
 		sound.play(0)
 
 func euler(delta):
+	return
 	velocity += force * mu * delta
 	previous_position = position
 	position += velocity * delta
 
 
 func verlet(delta):
+	return
 	var new_position  = 2 * position - previous_position + force * mu * pow( delta , 2.0 )
 	previous_position = position
 	position          = new_position
