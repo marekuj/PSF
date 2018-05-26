@@ -1,7 +1,7 @@
 extends Node
 
 var Nds = []  # węzły
-var NUM = 1
+var NUM = 10
 var e = 0.0 # wsp. restytucji
 
 var node_object = load("material_point.tscn")
@@ -68,12 +68,12 @@ func create_scene():
 	# initialize points
 	for i in range(NUM):
 		var new_node  = node_object.instance()
-		var r     = 3.5
+		var r     = 1.5
 		var phi   = 2*PI*randf()
 		var theta = -0.5*PI + PI*randf()
-		new_node.position = r*Vector3(cos(phi)*sin(theta),0,sin(phi)*sin(theta))
+		new_node.position = r * Vector3(cos(phi)*sin(theta),sin(theta),sin(phi)*sin(theta))
 		new_node.node_mass = node_mass
 		new_node.node_clapper = node_clapper
-		new_node.set_mass(5)
+		new_node.set_mass(2)
 		Nds.push_back(new_node)
 		add_child(new_node)		

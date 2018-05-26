@@ -24,6 +24,9 @@ onready var arrowhead_f  = $"point_f/arrowhead"
 var up_f = Vector3(0.0,1.0,0.0)
 
 # *******************************************************************************************
+var new_velocity = Vector3(0.0, 0.0, 0.0)
+var new_force = Vector3(0.0, 0.0, 0.0)
+
 onready var sound = null
 var force = Vector3(0.0, 0.0, 0.0)
 var PROJ = 0
@@ -42,12 +45,12 @@ func proj_perp (W, V):
 	return [proj, perp]
 
 # wyznacz przyspieszenie po odbiciu
-func new_velocity(v, n, e):
+func new_velocity(v, n, e = elasticity_factor):
 	var v_pp = proj_perp(v, n)		
 	return v_pp[PERP] - e * v_pp[PROJ]
 
 # wyznacz siłę po odbiciu	
-func new_force(f, n, v, u):		
+func new_force(f, n, v, u = friction_factor):		
 	var f_pp = proj_perp(f, n)	
 	var v_pp = proj_perp(v, n)	
 	var r = -f_pp[PROJ] 
@@ -105,7 +108,6 @@ func _physics_process(delta):
 		collision(delta, node_mass)
 		collision(delta, node_clapper)
 
-
 func _process(delta):
 	if !is_static:
 		point_v.translation = position
@@ -141,39 +143,22 @@ func set_mass(m):
 	mu   = pow( m, -1.0 )
 
 
-func collision(delta, node, hit_delta = 0.1):
-	var normal = node.collision(self, hit_delta)
-	if normal != null:
-		sound.play(0)
-
-		var new_velocity = new_velocity(velocity, normal, elasticity_factor)
-		var new_force = new_force(force, normal, velocity, friction_factor)
-#		var n = dist.normalized()
-#		var v_r = velocity.dot(n) * n
-#		var v_p = velocity - v_r;
-#		velocity = v_p - v_r
-#
-#		var F = force(delta)
-#		var F_r = F.dot(n) * n
-#		#var F_p = F - F_r
-#		var R = -F_r 
-#		var T = -0.5 * F_r * v_p.normalized()
-#
-#		euler(delta, F + R + T)	
+func collision(delta, collider, hit_delta = 0.1):
+	var hit = collider.collision(self, hit_delta)
+	if hit:
 		velocity = new_velocity
 		force = new_force
+		if previous_position.distance_to(position) > 0.01:
+			sound.play(0)
 		euler(delta)
-		sound.play(0)
 
 func euler(delta):
-	return
 	velocity += force * mu * delta
 	previous_position = position
 	position += velocity * delta
 
 
 func verlet(delta):
-	return
 	var new_position  = 2 * position - previous_position + force * mu * pow( delta , 2.0 )
 	previous_position = position
 	position          = new_position
