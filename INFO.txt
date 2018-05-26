@@ -1,0 +1,13 @@
+*********************************************************************************************************
+Clapper
+*********************************************************************************************************
+
+Sterowanie:
+
+w³¹czan¹/wy³¹czan¹ klawiszem wizualizacjê prêdkoœci punktu: v
+w³¹czan¹/wy³¹czan¹ klawiszem wizualizacjê si³ dzia³aj¹cych na punkt: f
+obrót kamer¹: œrodkowy przycisk myszki
+ruch si³y(bia³a kula), ruch grzechotki(wieloœcian na œrodku sceny): lewy przycisk myszy na obiekcie
+
+*********************************************************************************************************
+*********************************************************************************************************
