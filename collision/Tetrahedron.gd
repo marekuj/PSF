@@ -39,7 +39,7 @@ var mass   = null	# masa bryły sztywnej
 var mu     = null	# odwrotność masy bryły sztywnej
 var Xcm    = null	# środek masy bryły sztywnej 
 var I	   = null	# tensor momentu bezwłdności 
-var invI   = null   # odwrotność tensora
+var invI   = null	# odwrotność tensora
 
 func make():
 	triangles.append(createTriangle(PT_1, PT_2, PT_3, Color(1.0, 0.0, 0.0, 0.6)))
@@ -134,12 +134,6 @@ func getAxes():
 	for triangle in triangles:
 		axes.append( get_transform().basis * triangle[IDX_NORMAL] )	
 
-#	var A = Vector3(1, 2, 3)
-#	var B = get_transform().basis*A
-#	print("* A1:      ", get_transform().basis.xform(A))
-#	print("* A2:      ", get_transform().basis*A)
-#	print("* A2:      ", get_transform().basis.xform_inv(B))	
-#	print("* A3:      ", get_transform()) 
 	return axes
 
 func getEdges():
