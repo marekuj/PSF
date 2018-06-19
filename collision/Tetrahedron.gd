@@ -157,6 +157,45 @@ func getProjection(axes):
 
 	return Vector2(min_proj, max_proj)
 
+func getContactPoint(axes):
+	var min_proj = axes.dot( get_transform() * PT_1 )
+	for point in points:
+		var proj = axes.dot( get_transform() * point[IDX_PT_POINT] )
+		if abs(proj) < abs(min_proj):
+			min_proj = proj
+
+	var threshold = 0.000001
+	var contact = Vector3(0.0, 0.0, 0.0)
+	var count = 0
+	
+	for point in points:
+		var proj = axes.dot( get_transform() * point[IDX_PT_POINT] )
+		if abs(proj - min_proj) > threshold:
+			count += 1
+			contact += get_transform() * point[IDX_PT_POINT]
+
+	return contact / count
+	
+func getNearestPoint(axes):
+	var min_proj = axes.dot( get_transform() * PT_1 )
+	var nearest = get_transform() * PT_1
+
+	for point in points:
+		var proj = axes.dot( get_transform() * point[IDX_PT_POINT] )
+		if proj < min_proj:
+			min_proj = proj
+			nearest = get_transform() * point[IDX_PT_POINT]
+
+	return nearest
+
+
+func hit(J, r, n, delta):
+	var buffer_angular_velocity = angular_velocity + invI * r.cross(J * n)	
+	velocity = velocity - (angular_velocity - buffer_angular_velocity).cross(r) + mu * J * n
+	angular_velocity = buffer_angular_velocity
+	euler(delta)
+	accept(delta)
+
 # *******************************************************************************************	
 
 func _physics_process(delta):
